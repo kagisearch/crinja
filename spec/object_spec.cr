@@ -108,19 +108,6 @@ private class ExposeSelectedAttributes
   end
 end
 
-@[Crinja::Attributes]
-private class PredicateAttributesDouble
-  include Crinja::Object::Auto
-
-  def predicate?
-    "predicate?"
-  end
-
-  def predicate
-    "predicate"
-  end
-end
-
 describe Crinja::Object do
   describe Crinja::Attribute do
     it "simple" do
@@ -174,9 +161,6 @@ describe Crinja::Object do
 
   it "exposes predicate methods" do
     gutta = SimpleAttributes.new
-    gutta.crinja_attribute(Crinja::Value.new("is_predicate")).should eq Crinja::Value.new(true)
-
-    gutta = PredicateAttributesDouble.new
-    gutta.crinja_attribute(Crinja::Value.new("predicate")).should eq Crinja::Value.new("predicate")
+    gutta.crinja_attribute(Crinja::Value.new("predicate")).should eq Crinja::Value.new(true)
   end
 end

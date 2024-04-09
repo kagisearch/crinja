@@ -125,7 +125,7 @@ class Crinja
                     {% if method.args.all? { |arg| arg.default_value.class_name != "Nop" } %}
                       {% method_name = (ann && ann[:name]) || method.name %}
                       {% if !(ann && ann[:name]) && method.name.ends_with?("?") %}
-                        when "is_{{ method_name.id[0..-2] }}"
+                        when "{{ method_name.id[0..-2] }}"
                       {% else %}
                         when {{ method_name.id.stringify }}
                       {% end %}
