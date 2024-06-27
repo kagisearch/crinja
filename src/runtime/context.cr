@@ -194,6 +194,8 @@ class Crinja::Context < Crinja::Util::ScopeMap(String, Crinja::Value)
   private class CallStack
     @stack : Array(String) = [] of String
 
+    MAX_STACK_SIZE = 1_000
+
     def initialize(@kind : Symbol, @parent : CallStack?)
     end
 
@@ -202,9 +204,11 @@ class Crinja::Context < Crinja::Util::ScopeMap(String, Crinja::Value)
     end
 
     def <<(path : String)
-      raise TagCycleException.new(@kind, path) if includes?(path)
-
-      push_without_check(path)
+      if @stack.size < MAX_STACK_SIZE
+        push_without_check(path)
+      else
+        raise TagCycleException.new(@kind, path)
+      end
     end
 
     def push_without_check(path : String)
